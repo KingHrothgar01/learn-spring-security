@@ -7,8 +7,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.baeldung.lss.persistence.UserRepository;
+import com.baeldung.lss.persistence.VerificationTokenRepository;
 import com.baeldung.lss.validation.EmailExistsException;
 import com.baeldung.lss.web.model.User;
+import com.baeldung.lss.web.model.VerificationToken;
 
 @Service
 @Transactional
@@ -16,6 +18,9 @@ class UserService implements IUserService {
 
     @Autowired
     private UserRepository repository;
+    
+    @Autowired
+    private VerificationTokenRepository verificationTokenRepository;
     
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -46,5 +51,21 @@ class UserService implements IUserService {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         return repository.save(user);
+    }
+    
+    @Override
+    public void createVerificationTokenForUser(final User user, final String token) {
+        final VerificationToken myToken = new VerificationToken(token, user);
+        verificationTokenRepository.save(myToken);
+    }
+    
+    @Override
+    public VerificationToken getVerificationToken(final String token) {
+        return verificationTokenRepository.findByToken(token);
+    }
+    
+    @Override
+    public void saveRegisteredUser(final User user) {
+        repository.save(user);
     }
 }

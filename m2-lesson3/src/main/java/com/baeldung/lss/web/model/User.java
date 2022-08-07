@@ -1,15 +1,17 @@
 package com.baeldung.lss.web.model;
 
+import java.util.Calendar;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
-import java.util.Calendar;
-
-import com.baeldung.lss.validation.PasswordMatches;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+
+import com.baeldung.lss.validation.PasswordMatches;
 
 @Entity
 @PasswordMatches
@@ -31,8 +33,19 @@ public class User {
     private String passwordConfirmation;
 
     private Calendar created = Calendar.getInstance();
+    
+    @Column
+    private Boolean enabled;
 
-    public Long getId() {
+    public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Long getId() {
         return this.id;
     }
 

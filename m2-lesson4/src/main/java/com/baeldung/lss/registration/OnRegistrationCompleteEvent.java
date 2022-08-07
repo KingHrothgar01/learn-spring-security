@@ -5,7 +5,8 @@ import org.springframework.context.ApplicationEvent;
 
 public class OnRegistrationCompleteEvent extends ApplicationEvent {
 
-    private final String appUrl;
+    private static final long serialVersionUID = -7435259589083778483L;
+	private final String appUrl;
     private final User user;
 
     public OnRegistrationCompleteEvent(final User user, final String appUrl) {
